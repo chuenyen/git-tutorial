@@ -1,0 +1,38 @@
+1. toxic leadership and dictatorship
+- want to control everything and only want his ways to be executed
+- he asked us to abide with WMIS governance and escalate if someone asked us to forgo the governance. Yet for one particular requirement, he asked the project team to work on shadow IT so the requirement can go live without needing to go for CAM and other governance.
+- demoralize the division members with a lot of uncalled for demands/tasks and unnecessary documentations.
+- he just talks and doesn't do his work. He talks to make people feel he is analytical but no results at the end of the talks.
+- 1 hour meeting with him are usually without any outcome and impact
+  
+2. introduce extra work to the division members without much value-add
+- Asset Owner role is a good initiative but the implementation doesn't seem right
+  - nobody understands the value add of this role. We used to have Asset Expert or rather SPOC for each asset and everyone in the application team is responsible for the asset. This was working well. Why create a new role?
+  - why weekly meeting for Asset Owner? If this role doesn't have much work, it is meaningless to have weekly meeting
+  - how about the naming convention nonsense? If we changed our filename to respect our own naming convention then send the file to transversal team for validation, the transversal team won't recognize our naming convention and could ask us to rename to their naming convention. Why introduce the confusions?
+  - we just need to have an application SPOC who is responsible to ensure the asset's documentations are up-to-date. If you want, just have a functional expert and a technical expert. At the end, the whole application team should ensure all these are up-to-date. Don't make it sole responsibility of the SPOC
+- why do we have division RACIV? WMIS raciv is not sufficient to kill the project team?
+
+3. unable to protect division members
+- Decision on the ARM of TR branches was a decision by him. When we found out it didn't work and had to find a new ARM, we have to explain to users including COO and he was no where to be found to help the project team to explain.
+- he was not there at all (not even once) in all the meeting with Asia users for TR Branches, although the meeting was scheduled to European working hour. The BA and PM have to shoulder all the bashing from users including COO themselves.
+
+4. not supportive
+- seems to be a guy with problem for every solution
+- have a tendency to sabotage own division's decisions and solutions even during CAM meeting
+  - TR Tool Mannschaft was ready to go live as all users have provided their sign-off. But amazingly he himself didn't want to go-live because of the PGP encryption which was specified in the security form. IT security was already fine to give a "GO" providing the risk exception form is filled and signed but he still didn't want to go.
+  - We were 2 working days to the CAM validation of a project and suddenly he asked us to change our CAM solution to the solution he wanted. The solutions proposed in the CAM was the solution which was already agreed by E&CC, Security and S&A and if we need to change, means we will not be able to continue with the CAM on time and we have to start all over again.
+- CAM of TR Tool Mannschaft and TR Branches
+  - each CAM slide we prepared especially on the transaction reporting have to go through at least 20 rounds of review with him. It was mostly because he wanted his way and E&CC couldn't agree on his solution and he didn't want to listen to E&CC proposal
+  - at the end, S&A was willing to compromise by asking to put 2 options in CAM and let the CAM members decide but he didn't want. He asked to remove the 2nd option, leaving only his option that he wanted to be validated
+
+5. ask for your opinions but didn't listen at the end
+- he came out with an issue and provide some solution to it. Then he asked for our proposal. We gave our proposals but at the end what was validated was still his own proposal
+
+6. didn't perform his role as div head and doesn't seem to be serving the division
+- many times we are wondering if he is working for the division or he is working for xxxx.
+- all our projects concerning Asia sites are not in his radar. He might take care of it a little bit at the beginning and then disappeared without trace.
+- he only cares about Europe projects
+- doesn't care about budget and capacity planning
+- there is no more team leads or squad leads, so the div head should take the responsibility to ensure the squads are in high-morale. But we don't see this is happening.
+- there is not even any division level meetings, not even quarterly
