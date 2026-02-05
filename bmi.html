@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Calculator</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 15px;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 420px;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      margin-top: 12px;
+      font-weight: bold;
+      display: block;
+    }
+
+    /* Gender row */
+    .radio-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 5px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    input[readonly] {
+      background: #f0f0f0;
+      cursor: not-allowed;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Tooltip */
+    .tooltip-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip-icon {
+      margin-left: 6px;
+      color: #007bff;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .tooltip-box {
+      visibility: hidden;
+      background: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      width: 260px;
+      font-size: 13px;
+      position: absolute;
+      top: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .tooltip-wrapper:hover .tooltip-box {
+      visibility: visible;
+    }
+
+    @media (max-width: 420px) {
+      .tooltip-box {
+        width: 220px;
+      }
+    }
+
+    /* Water intake row */
+    .water-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 5px;
+    }
+
+    .water-field {
+      flex: 1;
+    }
+
+    .water-field label {
+      font-size: 13px;
+      font-weight: normal;
+      margin-top: 0;
+      margin-bottom: 2px;
+    }
+
+    @media (max-width: 360px) {
+      .water-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h2>Health Calculator</h2>
+
+  <!-- Gender -->
+  <label>Gender:</label>
+  <div class="radio-group">
+    <label><input type="radio" name="gender" value="Male" checked> Male</label>
+    <label><input type="radio" name="gender" value="Female"> Female</label>
+  </div>
+
+  <label>Age:</label>
+  <input type="number" id="age">
+
+  <label>Height (cm):</label>
+  <input type="number" id="height">
+
+  <label>Weight (kg):</label>
+  <input type="number" id="weight">
+
+  <label>BMR (kcal):</label>
+  <input type="number" id="bmr">
+
+  <!-- AMR -->
+  <label>
+    AMR (kcal)
+    <span class="tooltip-wrapper">
+      <span class="tooltip-icon">ℹ️</span>
+      <span class="tooltip-box">
+        Male: BMR × 0.3<br>
+        Female: BMR × 0.25
+      </span>
+    </span>
+  </label>
+  <input type="text" id="amr" readonly>
+
+  <!-- TMR -->
+  <label>
+    TMR (kcal)
+    <span class="tooltip-wrapper">
+      <span class="tooltip-icon">ℹ️</span>
+      <span class="tooltip-box">
+        TMR = BMR + AMR
+      </span>
+    </span>
+  </label>
+  <input type="text" id="tmr" readonly>
+
+  <label>Goal:</label>
+  <select id="goal">
+    <option>Lose Weight</option>
+    <option>Maintain</option>
+    <option>Gain Weight</option>
+  </select>
+
+  <!-- Ideal Weight -->
+  <label>
+    Ideal Weight (kg)
+    <span class="tooltip-wrapper">
+      <span class="tooltip-icon">ℹ️</span>
+      <span class="tooltip-box">
+        Male: Height − 105<br>
+        Female: Height − 110<br><br>
+        If age ≥ 60 → +5 kg
+      </span>
+    </span>
+  </label>
+  <input type="text" id="ideal" readonly>
+
+  <!-- Magic Number -->
+  <label>
+    Magic Number (kcal)
+    <span class="tooltip-wrapper">
+      <span class="tooltip-icon">ℹ️</span>
+      <span class="tooltip-box">
+        Male: BMR × 1.3<br>
+        Female: BMR × 1.25<br><br>
+        Lose: −500 (min 1200 M / 1000 F)<br>
+        Gain: +300
+      </span>
+    </span>
+  </label>
+  <input type="text" id="magic" readonly>
+
+  <!-- Monthly Change -->
+  <label>
+    1-Month Weight Change (kg)
+    <span class="tooltip-wrapper">
+      <span class="tooltip-icon">ℹ️</span>
+      <span class="tooltip-box">
+        Lose: (TMR − Magic) × 30 ÷ 7700<br>
+        Gain: (Magic − TMR) × 30 ÷ 7700
+      </span>
+    </span>
+  </label>
+  <input type="text" id="monthlyChange" readonly>
+  <div id="monthlySummary" style="margin-top:5px; font-size:14px; color:#444;"></div>
+
+  <!-- Water Intake (Min & Max same row) -->
+  <label>
+    Water Intake (L / day)
+    <span class="tooltip-wrapper">
+      <span class="tooltip-icon">ℹ️</span>
+      <span class="tooltip-box">
+        Minimum = Weight × 40 ml ÷ 1000<br>
+        Maximum = Weight × 70 ml ÷ 1000
+      </span>
+    </span>
+  </label>
+
+  <div class="water-row">
+    <div class="water-field">
+      <label>Minimum (L)</label>
+      <input type="text" id="waterMin" readonly>
+    </div>
+    <div class="water-field">
+      <label>Maximum (L)</label>
+      <input type="text" id="waterMax" readonly>
+    </div>
+  </div>
+
+  <button onclick="calculateAll()">Calculate</button>
+
+  <div id="result">Your BMI will appear here.</div>
+  <br><br><br><br>
+</div>
+
+<script>
+  const ageEl = age;
+  const heightEl = height;
+  const weightEl = weight;
+  const bmrEl = bmr;
+  const goalEl = goal;
+
+  const amrEl = amr;
+  const tmrEl = tmr;
+  const idealEl = ideal;
+  const magicEl = magic;
+  const monthlyChangeEl = monthlyChange;
+  const monthlySummary = document.getElementById("monthlySummary");
+  const waterMinEl = waterMin;
+  const waterMaxEl = waterMax;
+  const resultDiv = result;
+
+  function getGender() {
+    return document.querySelector('input[name="gender"]:checked').value;
+  }
+
+  function updateWater() {
+    const w = parseFloat(weightEl.value);
+    if (isNaN(w) || w <= 0) {
+      waterMinEl.value = "";
+      waterMaxEl.value = "";
+      return;
+    }
+    waterMinEl.value = (w * 0.04).toFixed(2);
+    waterMaxEl.value = (w * 0.07).toFixed(2);
+  }
+
+  function autoSelectGoal() {
+    const ideal = parseFloat(idealEl.value);
+    const weight = parseFloat(weightEl.value);
+    if (isNaN(ideal) || isNaN(weight)) return;
+
+    if (ideal < weight) goalEl.value = "Lose Weight";
+    else if (ideal > weight) goalEl.value = "Gain Weight";
+    else goalEl.value = "Maintain";
+  }
+
+  function updateIdealWeight() {
+    const gender = getGender();
+    const height = parseFloat(heightEl.value);
+    const age = parseFloat(ageEl.value);
+
+    if (isNaN(height) || height <= 0) {
+      idealEl.value = "";
+      return;
+    }
+
+    let ideal = gender === "Male" ? height - 105 : height - 110;
+    if (!isNaN(age) && age >= 60) ideal += 5;
+
+    idealEl.value = ideal.toFixed(1);
+
+    autoSelectGoal();
+    updateMagicNumber();
+    updateMonthlyChange();
+    updateMonthlySummary();
+  }
+
+  function updateAMR() {
+    const gender = getGender();
+    const bmr = parseFloat(bmrEl.value);
+    if (isNaN(bmr) || bmr <= 0) {
+      amrEl.value = "";
+      updateTMR();
+      return;
+    }
+    amrEl.value = Math.round(gender === "Male" ? bmr * 0.3 : bmr * 0.25);
+    updateTMR();
+  }
+
+  function updateTMR() {
+    const bmr = parseFloat(bmrEl.value);
+    const amr = parseFloat(amrEl.value);
+    if (isNaN(bmr) || isNaN(amr)) {
+      tmrEl.value = "";
+      updateMonthlyChange();
+      updateMonthlySummary();
+      return;
+    }
+    tmrEl.value = Math.round(bmr + amr);
+    updateMonthlyChange();
+    updateMonthlySummary();
+  }
+
+  function updateMagicNumber() {
+    const gender = getGender();
+    const goal = goalEl.value;
+    const bmr = parseFloat(bmrEl.value);
+    if (isNaN(bmr) || bmr <= 0) {
+      magicEl.value = "";
+      return;
+    }
+    let calories = gender === "Male" ? bmr * 1.3 : bmr * 1.25;
+    if (goal === "Lose Weight") {
+      calories -= 500;
+      calories = gender === "Male" ? Math.max(calories, 1200) : Math.max(calories, 1000);
+    } else if (goal === "Gain Weight") {
+      calories += 300;
+    }
+    magicEl.value = Math.round(calories);
+    updateMonthlyChange();
+    updateMonthlySummary();
+  }
+
+  function updateMonthlyChange() {
+    const goal = goalEl.value;
+    const tmr = parseFloat(tmrEl.value);
+    const magic = parseFloat(magicEl.value);
+    if (isNaN(tmr) || isNaN(magic)) {
+      monthlyChangeEl.value = "";
+      return;
+    }
+    let kg = 0;
+    if (goal === "Lose Weight") kg = (tmr - magic) * 30 / 7700;
+    else if (goal === "Gain Weight") kg = (magic - tmr) * 30 / 7700;
+    monthlyChangeEl.value = Math.max(0, kg).toFixed(2);
+  }
+
+  function updateMonthlySummary() {
+    const goal = goalEl.value;
+    const change = parseFloat(monthlyChangeEl.value);
+    if (goal === "Maintain") {
+      monthlySummary.textContent = "Your weight is expected to remain stable.";
+      return;
+    }
+    if (isNaN(change) || change <= 0) {
+      monthlySummary.textContent = "";
+      return;
+    }
+    monthlySummary.textContent =
+      goal === "Lose Weight"
+        ? `You may lose about ${change} kg in 1 month if you maintain your Magic Number intake.`
+        : `You may gain about ${change} kg in 1 month if you maintain your Magic Number intake.`;
+  }
+
+  function calculateAll() {
+    updateIdealWeight();
+    updateAMR();
+    updateTMR();
+    updateMagicNumber();
+    updateMonthlyChange();
+    updateMonthlySummary();
+    updateWater();
+
+    const h = parseFloat(heightEl.value);
+    const w = parseFloat(weightEl.value);
+    if (isNaN(h) || isNaN(w) || h <= 0 || w <= 0) {
+      resultDiv.textContent = "⚠️ Invalid height or weight.";
+      return;
+    }
+    const bmi = w / Math.pow(h / 100, 2);
+    let cat = "", col = "";
+    if (bmi < 18.5) { cat = "Underweight"; col = "blue"; }
+    else if (bmi < 24.9) { cat = "Normal weight"; col = "green"; }
+    else if (bmi < 29.9) { cat = "Overweight"; col = "orange"; }
+    else { cat = "Obese"; col = "red"; }
+    resultDiv.textContent = `BMI: ${bmi.toFixed(2)} (${cat})`;
+    resultDiv.style.color = col;
+  }
+
+  /* Auto updates */
+  heightEl.addEventListener("input", updateIdealWeight);
+  ageEl.addEventListener("input", updateIdealWeight);
+
+  weightEl.addEventListener("input", () => {
+    updateWater();
+    autoSelectGoal();
+    updateMagicNumber();
+    updateMonthlyChange();
+    updateMonthlySummary();
+  });
+
+  document.querySelectorAll('input[name="gender"]').forEach(r =>
+    r.addEventListener("change", () => {
+      updateIdealWeight();
+      updateAMR();
+      updateTMR();
+      updateMagicNumber();
+      updateMonthlyChange();
+      updateMonthlySummary();
+      updateWater();
+    })
+  );
+
+  bmrEl.addEventListener("input", () => {
+    updateAMR();
+    updateTMR();
+    updateMagicNumber();
+    updateMonthlyChange();
+    updateMonthlySummary();
+  });
+
+  goalEl.addEventListener("change", () => {
+    updateMagicNumber();
+    updateMonthlyChange();
+    updateMonthlySummary();
+  });
+</script>
+
+</body>
+</html>
